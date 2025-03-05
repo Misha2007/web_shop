@@ -21,5 +21,15 @@ module.exports = (() => {
     });
     models.sequelize = sequelize;
   }
+
+  models.User = require("./user");
+  models.Product = require("./product");
+
+  models.User.hasMany(models.Product);
+  models.Product.belongsTo(models.User, {
+    constrains: true,
+    onDelete: "CASCADE",
+  });
+
   return models;
 })();
