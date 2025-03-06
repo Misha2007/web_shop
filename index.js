@@ -24,6 +24,8 @@ app.use("/admin", productAdminRoutes);
 
 const productRoutes = require("./routes/products");
 app.use(productRoutes);
+const shopRoutes = require("./routes/shop");
+app.use(shopRoutes);
 
 sequelize
   .sync({})
@@ -32,7 +34,7 @@ sequelize
   })
   .then((user) => {
     if (!user) {
-      const user = models.User.create({
+      return models.User.create({
         name: "user",
         email: "user@local.com",
       });
@@ -40,6 +42,10 @@ sequelize
     return user;
   })
   .then((user) => {
+    return user.createCart();
+  })
+  .then((cart) => {
+    // console.log(cart);
     app.listen(3002, () => {
       console.log("server is running on http://localhost:3002");
     });

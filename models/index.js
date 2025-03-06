@@ -24,12 +24,18 @@ module.exports = (() => {
 
   models.User = require("./user");
   models.Product = require("./product");
+  models.Cart = require("./cart");
+  models.CartItem = require("./cart-item");
 
   models.User.hasMany(models.Product);
   models.Product.belongsTo(models.User, {
     constrains: true,
     onDelete: "CASCADE",
   });
+  models.User.hasOne(models.Cart);
+  models.Cart.belongsTo(models.User);
+  models.Cart.belongsToMany(models.Product, { through: models.CartItem });
+  models.Product.belongsToMany(models.Cart, { through: models.CartItem });
 
   return models;
 })();
