@@ -24,8 +24,12 @@ app.use("/admin", productAdminRoutes);
 
 const productRoutes = require("./routes/products");
 app.use(productRoutes);
+
 const shopRoutes = require("./routes/shop");
 app.use(shopRoutes);
+
+const orderRoutes = require("./routes/orders");
+app.use(orderRoutes);
 
 sequelize
   .sync({})

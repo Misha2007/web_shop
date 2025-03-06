@@ -26,6 +26,8 @@ module.exports = (() => {
   models.Product = require("./product");
   models.Cart = require("./cart");
   models.CartItem = require("./cart-item");
+  models.Order = require("./order");
+  models.OrderItem = require("./order-item");
 
   models.User.hasMany(models.Product);
   models.Product.belongsTo(models.User, {
@@ -36,6 +38,30 @@ module.exports = (() => {
   models.Cart.belongsTo(models.User);
   models.Cart.belongsToMany(models.Product, { through: models.CartItem });
   models.Product.belongsToMany(models.Cart, { through: models.CartItem });
+
+  models.User.hasMany(models.Product);
+  models.Product.belongsTo(models.User);
+
+  models.Cart.belongsToMany(models.Product, {
+    through: models.CartItem,
+    onDelete: "CASCADE",
+  });
+  models.Product.belongsToMany(models.Cart, {
+    through: models.CartItem,
+    onDelete: "CASCADE",
+  });
+
+  models.Order.hasMany(models.OrderItem);
+  models.OrderItem.belongsTo(models.Order);
+
+  models.User.hasMany(models.Order);
+  models.Order.belongsTo(models.User);
+
+  models.OrderItem.belongsTo(models.Product);
+  models.Product.hasMany(models.OrderItem);
+
+  models.OrderItem.belongsTo(models.Product, { onDelete: "CASCADE" });
+  models.Product.hasMany(models.OrderItem, { onDelete: "CASCADE" });
 
   return models;
 })();
